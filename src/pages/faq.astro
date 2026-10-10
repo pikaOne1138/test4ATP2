@@ -1,0 +1,6 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Breadcrumbs from '../components/blocks/Breadcrumbs.astro';
+const base=import.meta.env.BASE_URL;
+---
+<SiteLayout title="常見問題"><section class="interior"><Breadcrumbs items={[{label:'首頁',href:base},{label:'常見問題'}]}/><p class="eyebrow">QA 測試內容</p><h1>先把疑問說清楚</h1><details><summary>現在可以預約嗎？</summary><p>不可以。這是測試網站，沒有真實服務或聯絡方式。</p></details><details><summary>這裡會收集個人資料嗎？</summary><p>不會。沒有表單、會員、Email 訂閱或分析服務。</p></details><details><summary>資格與費用是否已確認？</summary><p>沒有。正式使用前需由本人提供並核實。</p></details><details><summary>有緊急需要怎麼辦？</summary><p>本站不提供即時協助。請使用所在地的緊急服務或合適專業資源。</p></details></section></SiteLayout>

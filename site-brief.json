@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "kind": "helper",
+  "layoutSlug": "clinician",
+  "visualTheme": "studio",
+  "brand": {
+    "name": "QA43 清晰服務說明室",
+    "primaryColor": "#2F5D50",
+    "tagline": "QA 測試網站：先理解服務界線，再決定下一步",
+    "palette": {
+      "primary": "#2F5D50",
+      "secondary": "#708A7A",
+      "accent": "#B17C60",
+      "background": "#F6F7F3",
+      "text": "#23312D"
+    }
+  },
+  "navigation": [
+    {
+      "id": "services",
+      "label": "服務項目",
+      "enabled": true
+    },
+    {
+      "id": "first-visit",
+      "label": "合作流程",
+      "enabled": true
+    },
+    {
+      "id": "about",
+      "label": "關於我",
+      "enabled": true
+    },
+    {
+      "id": "faq",
+      "label": "常見問題",
+      "enabled": true
+    },
+    {
+      "id": "articles",
+      "label": "文章",
+      "enabled": false
+    },
+    {
+      "id": "booking",
+      "label": "聯絡方式",
+      "enabled": true
+    }
+  ],
+  "sectionPatterns": [],
+  "primaryCta": {
+    "label": "了解服務",
+    "pageId": "services"
+  },
+  "notes": "專用測試 Repo test4ATP2；使用 clinician 構圖；增加服務適配頁。沒有真實資格、費用或聯絡方式，不接受預約；全站 noindex。"
+}
