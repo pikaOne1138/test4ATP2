@@ -6,7 +6,7 @@ const config=JSON.parse(readFileSync('site.config.json','utf8'));
 const base=process.env.ASTRO_BASE_PATH||'/';
 const out='qa-artifacts/'+(base==='/'?'root':'subpath');mkdirSync(out,{recursive:true});
 const origin='http://127.0.0.1:4329';
-const server=spawn('npm',['run','preview','--','--host','127.0.0.1','--port','4329'],{stdio:'ignore'});
+const server=spawn(process.execPath,['node_modules/astro/astro.js','preview','--host','127.0.0.1','--port','4329'],{stdio:'ignore'});
 let browser;const rows=[];const failures=[];
 try{
  let ready=false;
@@ -23,7 +23,8 @@ try{
    const audit=await page.evaluate(()=>({
     overflow:document.documentElement.scrollWidth>innerWidth+2,
     brokenImages:[...document.images].filter(x=>!x.complete||!x.naturalWidth).map(x=>x.src),
-    noindex:document.querySelector('meta[name="robots"]')?.content.includes('noindex'),
+    noindex:document.head.querySelector('meta[name="robots"]')?.content.includes('noindex'),
+    metadataInHead:!!document.head.querySelector('meta[name="description"]')&&!!document.head.querySelector('link[rel="canonical"]'),
     fakeLinks:[...document.querySelectorAll('a')].filter(x=>!x.getAttribute('href')||x.getAttribute('href')==='#').map(x=>x.textContent),
     links:[...document.querySelectorAll('a[href],img[src],link[rel="stylesheet"]')].map(x=>x.href||x.src).filter(Boolean),
     nav:[...document.querySelectorAll('header nav a')].map(x=>({text:x.textContent,width:x.getBoundingClientRect().width,height:x.getBoundingClientRect().height})),
@@ -37,7 +38,7 @@ try{
     if(u.hash&&u.pathname===new URL(page.url()).pathname){const id=decodeURIComponent(u.hash.slice(1));if(!await page.locator('[id='+JSON.stringify(id)+']').count())badLinks.push({href,reason:'missing anchor'})}
    }
    const row={width,route:base+route,status:response.status(),...audit,badLinks,errors};delete row.links;rows.push(row);
-   if(row.status!==200||row.overflow||row.brokenImages.length||!row.noindex||row.fakeLinks.length||badLinks.length||errors.length)failures.push(row);
+   if(row.status!==200||row.overflow||row.brokenImages.length||!row.noindex||!row.metadataInHead||row.minFont<12||row.fakeLinks.length||badLinks.length||errors.length)failures.push(row);
    await page.screenshot({path:out+'/'+config.layoutSlug+'-'+(route?route.replaceAll('/','-'):'home')+'-'+width+'.png',fullPage:true,animations:'disabled'});
    if(!route){
     await page.keyboard.press('Tab');const skip=await page.evaluate(()=>document.activeElement?.textContent?.trim());
