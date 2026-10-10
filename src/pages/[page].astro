@@ -1,0 +1,12 @@
+---
+import config from '../../site.config.json';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Breadcrumbs from '../components/blocks/Breadcrumbs.astro';
+import UnderlineLink from '../components/effects/UnderlineLink.astro';
+export function getStaticPaths(){return config.navigation.filter(x=>x.id!=='articles'&&x.id!=='faq').map(item=>({params:{page:item.id},props:{item}}))}
+const {item}=Astro.props;
+const copy={"about": ["先核對，才信任", "QA 測試網站，沒有真實服務者，也没有已確認的資格或執照。", "待核實資料", "身分、服務地區、資格查核來源與服務時間，正式使用前必須由本人確認。"], "services": ["先了解服务說明", "這是一份 QA 服務資訊範例，不提供實際諮詢、醫療、治療或其他收費服務。", "服務內容尚未設定", "實際範圍、方式、時長、費用、取消與保密政策均待本人提供。沒有付款或預約按鈕。"], "fit": ["先確認服務是否適配", "本站僅用來驗證資訊結構，不提供任何實際服務。", "適合這份測試的情況", "想檢查服務說明、流程與資料核實是否容易找到。"], "first-visit": ["下一步先確認資訊", "這是示範流程，並非已開放的會談安排。", "三個步驟", "先確認服務範圍與資格；閱讀政策；本人提供真實聯絡入口後，再依意願聯絡。"], "booking": ["聯絡入口尚未啟用", "沒有真實聯絡方式，因此本站不收集姓名、Email、健康資料或付款。", "目前狀態", "不接受送出、預約或付款。沒有預約成功通知；這是資訊狀態頁。"]};
+const text=copy[item.id];
+const base=import.meta.env.BASE_URL;
+---
+<SiteLayout title={item.label}><section class="interior"><Breadcrumbs items={[{label:'首頁',href:base},{label:item.label}]}/><p class="eyebrow">QA 測試內容</p><h1>{text[0]}</h1><p>{text[1]}</p><h2>{text[2]}</h2><p>{text[3]}</p>{item.id==='fit'&&<><h2>不適合與緊急資源</h2><p>本站不能處理即時危險、危機或醫療需求。若有立即危險，請使用所在地的緊急服務或合適專業資源；此處沒有虛構電話。</p></>}{item.id==='booking'&&<p role="status">聯絡未設定；沒有資料送出。</p>}<UnderlineLink href={base+(config.kind==='knowledge'?'articles/':'services/')}>{config.kind==='knowledge'?'閱讀公開文章':'查看服務說明'} →</UnderlineLink></section></SiteLayout>

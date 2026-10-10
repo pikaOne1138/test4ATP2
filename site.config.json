@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "kind": "helper",
+  "layoutSlug": "clinician",
+  "visualTheme": "studio",
+  "brand": {
+    "name": "QA43 清晰服務說明室",
+    "primaryColor": "#2F5D50",
+    "tagline": "QA 測試網站：先理解服務界線，再決定下一步",
+    "palette": {
+      "primary": "#2F5D50",
+      "secondary": "#708A7A",
+      "accent": "#B17C60",
+      "background": "#F6F7F3",
+      "text": "#23312D"
+    }
+  },
+  "navigation": [
+    {
+      "id": "services",
+      "label": "服務項目",
+      "enabled": true
+    },
+    {
+      "id": "fit",
+      "label": "服務適配",
+      "enabled": true
+    },
+    {
+      "id": "first-visit",
+      "label": "合作流程",
+      "enabled": true
+    },
+    {
+      "id": "about",
+      "label": "關於我",
+      "enabled": true
+    },
+    {
+      "id": "faq",
+      "label": "常見問題",
+      "enabled": true
+    },
+    {
+      "id": "booking",
+      "label": "聯絡方式",
+      "enabled": true
+    }
+  ],
+  "primaryCta": {
+    "label": "了解服務",
+    "pageId": "services"
+  },
+  "sectionPatterns": [],
+  "site": "https://qa43.invalid",
+  "base": "/"
+}

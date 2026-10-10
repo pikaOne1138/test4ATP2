@@ -1,0 +1,35 @@
+name: Learner Chromium visual and functional QA
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      QA_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      SITE_URL: https://qa43.invalid
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npm install --no-save --no-audit --no-fund playwright@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: node scripts/student-visual-qa.mjs
+      - name: Build and verify repository subpath
+        env:
+          ASTRO_BASE_PATH: /qa43-student/
+        run: |
+          npm run build
+          node scripts/student-visual-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: learner-visual-qa
+          path: qa-artifacts
+          retention-days: 14
